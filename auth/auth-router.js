@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const { jwtSecret } = require("./secrets.js");
 const { isValid } = require("./usersService");
-const User = require("../database/dbConfig");
+const User = require("./userModel");
 
 router.post("/register", (req, res) => {
   const credentials = req.body;
