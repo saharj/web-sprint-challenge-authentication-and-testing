@@ -22,6 +22,12 @@ describe("Auth router", () => {
         .send({ username: "sahari" });
       expect(res.status).toBe(400);
     });
+    it("throws if password is invalid", async () => {
+      const res = await request(server)
+        .post("/api/auth/register")
+        .send({ username: "sahari", password: 1233 });
+      expect(res.status).toBe(400);
+    });
   });
 
   describe("[Post] /api/auth/login", () => {
