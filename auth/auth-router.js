@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const { jwtSecret } = require("./secrets.js");
 const { isValid } = require("./usersService");
-const User = require("./userModel");
+const Users = require("./userModel");
 
 router.post("/register", (req, res) => {
   const credentials = req.body;
@@ -14,7 +14,7 @@ router.post("/register", (req, res) => {
     const hashed = bcrypt.hashSync(credentials.password, rounds);
 
     credentials.password = hashed;
-    User.add(credentials)
+    Users.add(credentials)
       .then((user) => {
         res.status(201).json({ data: user });
       })
@@ -30,7 +30,35 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  // implement login
+  const { username, password } = req.body;
+
+  if (isValid(req.body)) {
+    Users.findBy({ username })
+      .then((user) => {
+        if (user && bcrypt.compare(password, user.password)) {
+          const token = generateToken(user);
+          res.status(200).json({ message: "Successful login", token });
+        } else {
+          res.status(401).json({ message: "Bad credentials" });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message });
+      });
+  }
 });
+
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+  };
+
+  const options = {
+    expiresIn: "60 seconds",
+  };
+
+  return jwt.sign(payload, jwtSecret, options);
+}
 
 module.exports = router;

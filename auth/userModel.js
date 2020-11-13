@@ -9,4 +9,8 @@ function findById(id) {
   return db("users").where({ id }).first();
 }
 
-module.exports = { add };
+function findBy(filter) {
+  return db("users").where(filter);
+}
+
+module.exports = { add, findBy };
