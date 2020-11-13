@@ -4,7 +4,8 @@
   "description": "Authentication Sprint Challenge",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "test": "jest --watch --verbose"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
+    "eslint": "^7.13.0",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.5"
   }
 }
