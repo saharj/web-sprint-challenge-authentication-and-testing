@@ -38,7 +38,13 @@ describe("Auth router", () => {
       expect(res.status).toBe(200);
       expect(res.body.token).toBeTruthy();
     });
-    it("throws if the password is incorrect", async () => {
+    it("throws if the password is invalid", async () => {
+      const res = await request(server)
+        .post("/api/auth/login")
+        .send({ username: "sahari", password: 12345 });
+      expect(res.status).toBe(401);
+    });
+    it("throws if the password is not incorrect", async () => {
       const res = await request(server)
         .post("/api/auth/login")
         .send({ username: "sahari", password: "12345" });

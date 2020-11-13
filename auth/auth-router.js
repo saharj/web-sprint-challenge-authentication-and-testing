@@ -45,6 +45,13 @@ router.post("/login", (req, res) => {
       .catch((err) => {
         res.status(500).json({ message: err.message });
       });
+  } else {
+    res
+      .status(401)
+      .json({
+        message:
+          "please provide username and password and the password should be alphanumeric",
+      });
   }
 });
 
